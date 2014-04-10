@@ -1,13 +1,12 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8)
 project (Azteroids)
 
 # Required libraries in this source dir
-add_subdirectory(lib/entityx)
-add_subdirectory(lib/noise)
-add_subdirectory(lib/glfw)
+add_subdirectory(lib/entityx EXCLUDE_FROM_ALL)
+add_subdirectory(lib/glfw EXCLUDE_FROM_ALL)
 
 # include paths
-include_directories(${GLUT_INCLUDE_DIRS} lib/glfw/include)
+include_directories(${GLUT_INCLUDE_DIRS} lib/glfw/include lib/entityx)
 
 if (NOT APPLE)
     # HACK: This is NOTFOUND on OS X 10.8
@@ -33,5 +32,6 @@ if (MSVC)
                           LINK_FLAGS "/ENTRY:mainCRTStartup")
 endif()
 
-target_link_libraries(Azteroids noise entityx glfw ${GLFW_LIBRARIES})
+set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
+target_link_libraries(Azteroids entityx glfw ${GLFW_LIBRARIES})
 

@@ -31,15 +31,17 @@ int main (void) {
 
     while (!glfwWindowShouldClose(window)) {
         int width, height;
-        double timeNow, timeLast = 0;
+        float ratio = width / (float) height;
+
+        glViewport(0, 0, width, height);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
 
         glfwGetFramebufferSize(window, &width, &height);
 
-        timeNow = glfwGetTime();
-        application.update(timeNow - timeLast);
-        timeLast = timeNow;
-
-        application.draw(width, height);
+        application.step();
 
         glfwSwapBuffers(window);
         glfwPollEvents();

@@ -1,12 +1,17 @@
-
 #pragma once
+
+#include "level.h"
 
 class App {
 
     public:
 
-        void update(const double dt);
+        App();
 
-        void draw(const int width, const int height);
+        void step();
+
+    private:
+
+        Level level;
 };
 
