@@ -30,3 +30,5 @@ install_manifest.txt
 # Output dir
 bin/
 
+# OS ignores
+.DS_Store
