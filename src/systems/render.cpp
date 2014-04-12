@@ -18,7 +18,11 @@ void RenderSystem::update(entityx::ptr<entityx::EntityManager> entities,
 
         glPushMatrix();
         if (position) {
-            glTranslatef(position->x, position->y, 1);
+            glTranslatef(position->x, position->y, -500);
+            glRotatef(position->rotation,
+                      position->rotation_axis_x,
+                      position->rotation_axis_y,
+                      position->rotation_axis_z);
         }
         appearance->render();
         glPopMatrix();

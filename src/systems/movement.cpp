@@ -1,6 +1,7 @@
+#include <components/geometry.h>
 #include <components/mass.h>
-#include <components/position.h>
 #include <components/momentum.h>
+#include <components/position.h>
 
 #include "movement.h"
 
@@ -11,23 +12,26 @@ void MovementSystem::update(entityx::ptr<entityx::EntityManager> entities,
         entityx::ptr<Position> position = entity.component<Position>();
         entityx::ptr<Momentum> momentum = entity.component<Momentum>();
         entityx::ptr<Mass>     mass     = entity.component<Mass>();
+        entityx::ptr<Geometry> geometry = entity.component<Geometry>();
         float m = mass? mass->mass : m;
+        float radius = geometry? geometry->radius : 0;
 
-        position->x += momentum->x / m * dt;
-        position->y += momentum->y / m * dt;
+        // linear momentum
+        position->x  += momentum->x / m * dt;
+        position->y  += momentum->y / m * dt;
 
-        while (position->x < 0) {
-            position->x += width;
-        }
-        while (position->x > width) {
-            position->x -= width;
-        }
-        while (position->y < 0) {
-            position->y += height;
-        }
-        while (position->y > height) {
-            position->y -= height;
-        }
+        // angular momentum
+        position->rotation += momentum->angular / m * dt;
+
+        // Bound linear position
+        while (position->x < -radius) { position->x += width + radius*2; }
+        while (position->x > width + radius) { position->x -= width + radius*2; }
+        while (position->y < -radius) { position->y += height + radius*2; }
+        while (position->y > height + radius) { position->y -= height + radius*2; }
+
+        // Bound rotation
+        while (position->rotation < 0) { position->rotation += 360; }
+        while (position->rotation > 360) { position->rotation -= 360; }
     }
 }
 

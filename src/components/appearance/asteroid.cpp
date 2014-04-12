@@ -2,7 +2,7 @@
 #include "asteroid.h"
 
 void Asteroid::render() {
-    glScalef(size, size, 1);
+    glScalef(size, size, size);
     glColor3f(0.5f, 0.5f, 0.5f);
     glutSolidCube(1);
 }

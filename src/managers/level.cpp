@@ -1,4 +1,5 @@
 #include <components/appearance/asteroid.h>
+#include <components/geometry.h>
 #include <components/mass.h>
 #include <components/momentum.h>
 #include <components/position.h>
@@ -8,7 +9,7 @@
 
 #include "level.h"
 
-const int AZTEROIDS_NUM = 10;
+const int AZTEROIDS_NUM = 20;
 
 void Level::configure() {
     system_manager->add<CollisionSystem>();
@@ -18,12 +19,16 @@ void Level::configure() {
 
 void Level::initialize() {
     for (int i = 0; i < AZTEROIDS_NUM; i++) {
-        float mass = rand() % 100 + 10;
+        float mass = rand() % 50 + 10;
         entityx::Entity entity = entity_manager->create();
         entity.assign<Asteroid>(mass);
         entity.assign<Mass>(mass);
-        entity.assign<Momentum>(rand() % 1000 - 500, rand() % 1000 - 500);
-        entity.assign<Position>(rand() % width, rand() % height);
+        entity.assign<Geometry>(mass);
+        entity.assign<Momentum>(rand() % 1000 - 500, rand() % 1000 - 500,
+                                rand() % 600 - 300);
+        entity.assign<Position>(rand() % width, rand() % height,
+                                rand() % 360,
+                                rand() % 10, rand() % 10, rand() % 10);
     }
 }
 
