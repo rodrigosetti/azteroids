@@ -5,8 +5,12 @@ project (Azteroids)
 add_subdirectory(lib/entityx EXCLUDE_FROM_ALL)
 add_subdirectory(lib/glfw EXCLUDE_FROM_ALL)
 
+# use GLUT
+find_package(GLUT REQUIRED)
+include_directories(${GLUT_INCLUDE_DIR})
+
 # include paths
-include_directories(${GLUT_INCLUDE_DIRS} lib/glfw/include lib/entityx)
+include_directories(${GLUT_INCLUDE_DIRS} lib/glfw/include lib/entityx src)
 
 if (NOT APPLE)
     # HACK: This is NOTFOUND on OS X 10.8
@@ -33,5 +37,5 @@ if (MSVC)
 endif()
 
 set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
-target_link_libraries(Azteroids entityx glfw ${GLFW_LIBRARIES})
+target_link_libraries(Azteroids entityx glfw ${GLFW_LIBRARIES} ${GLUT_LIBRARIES})
 

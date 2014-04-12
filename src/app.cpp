@@ -1,10 +1,10 @@
 #include "app.h"
 
-App::App() {
+App::App(int width, int height) : level(Level(width, height)) {
     level.start();
 }
 
-void App::step() {
-    level.step(0.1);
+void App::step(double dt) {
+    level.step(dt);
 }
 

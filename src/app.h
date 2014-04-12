@@ -1,14 +1,14 @@
 #pragma once
 
-#include "level.h"
+#include <managers/level.h>
 
 class App {
 
     public:
 
-        App();
+        App(int width, int height);
 
-        void step();
+        void step(double dt);
 
     private:
 
