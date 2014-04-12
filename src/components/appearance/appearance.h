@@ -2,6 +2,6 @@
 
 #include <entityx/entityx.h>
 
-struct Renderable : entityx::Component<Renderable> {
+struct Appearance : entityx::Component<Appearance> {
     virtual void render() = 0;
 };

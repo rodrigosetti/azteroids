@@ -1,7 +1,7 @@
 #include <GL/glut.h>
-#include "azteroid.h"
+#include "asteroid.h"
 
-void Azteroid::render() {
+void Asteroid::render() {
     glColor3f(0.5f, 0.5f, 0.5f);
     glutSolidCube(1);
 }

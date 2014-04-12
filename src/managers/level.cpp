@@ -3,7 +3,7 @@
 #include <components/position.h>
 #include <components/momentum.h>
 #include <components/mass.h>
-#include <components/azteroid.h>
+#include <components/appearance/asteroid.h>
 
 #define AZTEROIDS_NUM 10
 
