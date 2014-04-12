@@ -2,13 +2,10 @@
 
 #include <entityx/entityx.h>
 
-class RenderSystem : public entityx::System<RenderSystem> {
+class MovementSystem : public entityx::System<MovementSystem> {
     public:
         void update(entityx::ptr<entityx::EntityManager> entities,
                     entityx::ptr<entityx::EventManager> events,
                     double dt) override;
-
-        int width;
-        int height;
 };
 
