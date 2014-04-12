@@ -12,16 +12,17 @@ const int AZTEROIDS_NUM = 10;
 
 void Level::configure() {
     system_manager->add<CollisionSystem>();
-    system_manager->add<MovementSystem>();
+    system_manager->add<MovementSystem>(width, height);
     system_manager->add<RenderSystem>();
 };
 
 void Level::initialize() {
     for (int i = 0; i < AZTEROIDS_NUM; i++) {
+        float mass = rand() % 100 + 10;
         entityx::Entity entity = entity_manager->create();
-        entity.assign<Asteroid>();
-        entity.assign<Mass>(rand() % 100 + 10);
-        entity.assign<Momentum>(rand() % 10 - 5, rand() % 10 - 5);
+        entity.assign<Asteroid>(mass);
+        entity.assign<Mass>(mass);
+        entity.assign<Momentum>(rand() % 1000 - 500, rand() % 1000 - 500);
         entity.assign<Position>(rand() % width, rand() % height);
     }
 }

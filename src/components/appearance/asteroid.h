@@ -2,7 +2,13 @@
 
 #include "appearance.h"
 
-struct Asteroid : Appearance {
-    void render();
+class Asteroid : public Appearance {
+    public:
+        Asteroid(float size) : size(size) {}
+
+        void render();
+
+    private:
+        float size;
 };
 

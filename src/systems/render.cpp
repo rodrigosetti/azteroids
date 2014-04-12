@@ -12,14 +12,14 @@ void RenderSystem::update(entityx::ptr<entityx::EntityManager> entities,
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    for (auto entity : entities->entities_with_components<Position, Mass, Appearance>()) {
+    for (auto entity : entities->entities_with_components<Appearance>()) {
         entityx::ptr<Position> position     = entity.component<Position>();
-        entityx::ptr<Mass> mass             = entity.component<Mass>();
         entityx::ptr<Appearance> appearance = entity.component<Appearance>();
 
         glPushMatrix();
-        glTranslatef(position->x, position->y, 1);
-        glScalef(mass->mass, mass->mass, 1);
+        if (position) {
+            glTranslatef(position->x, position->y, 1);
+        }
         appearance->render();
         glPopMatrix();
     }
