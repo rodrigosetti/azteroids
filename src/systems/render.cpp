@@ -13,7 +13,7 @@ void RenderSystem::update(entityx::ptr<entityx::EntityManager> entities,
     glLoadIdentity();
 
     for (auto entity : entities->entities_with_components<Appearance>()) {
-        entityx::ptr<Position> position     = entity.component<Position>();
+        entityx::ptr<Position>   position   = entity.component<Position>();
         entityx::ptr<Appearance> appearance = entity.component<Appearance>();
 
         glPushMatrix();

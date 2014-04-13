@@ -15,7 +15,8 @@ class Level : public entityx::Manager {
 
     private:
 
-        int width;
-        int height;
+        int width, height;
+
+        entityx::Entity user_ship;
 };
 
