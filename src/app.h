@@ -8,10 +8,13 @@ class App {
 
         App(int width, int height);
 
+        void initialize();
+
         void step(double dt);
 
     private:
 
+        int width, height;
         Level level;
 };
 

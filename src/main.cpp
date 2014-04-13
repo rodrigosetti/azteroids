@@ -37,16 +37,14 @@ int main (void) {
     glfwSetKeyCallback(window, key_callback);
 
     App application(SPACE_WIDTH, SPACE_HEIGHT);
+    application.initialize();
 
     while (!glfwWindowShouldClose(window)) {
         int width, height;
         glfwGetFramebufferSize(window, &width, &height);
-
         glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(0, SPACE_WIDTH, 0, SPACE_HEIGHT, 0.1f, 1000);
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         double time = glfwGetTime();
         application.step(time - lastTime);
