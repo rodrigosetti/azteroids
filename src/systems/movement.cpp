@@ -1,3 +1,4 @@
+#include <components/attrition.h>
 #include <components/geometry.h>
 #include <components/mass.h>
 #include <components/momentum.h>
@@ -32,6 +33,14 @@ void MovementSystem::update(entityx::ptr<entityx::EntityManager> entities,
         // Bound rotation
         while (position->rotation < 0) { position->rotation += 360; }
         while (position->rotation > 360) { position->rotation -= 360; }
+    }
+
+    for (auto entity : entities->entities_with_components<Attrition, Momentum>()) {
+        entityx::ptr<Attrition> attrition = entity.component<Attrition>();
+        entityx::ptr<Momentum>  momentum  = entity.component<Momentum>();
+
+        momentum->x *= pow(attrition->e, dt);
+        momentum->y *= pow(attrition->e, dt);
     }
 }
 

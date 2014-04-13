@@ -1,5 +1,6 @@
 #include <components/appearance/asteroid.h>
 #include <components/appearance/ship.h>
+#include <components/attrition.h>
 #include <components/geometry.h>
 #include <components/mass.h>
 #include <components/momentum.h>
@@ -47,6 +48,7 @@ void Level::initialize() {
     user_ship.assign<Ship>();
     user_ship.assign<Geometry>(10);
     user_ship.assign<Momentum>(0, 0, 0);
+    user_ship.assign<Attrition>(0.9f);
     user_ship.assign<Position>(width/2, height/2);
 }
 
