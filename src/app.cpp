@@ -8,17 +8,24 @@ App::App(int width, int height) :
 }
 
 void App::initialize() {
-    const GLfloat light_position[] = { 0.0, 0.0, 1.0, 0.0 };
-    const GLfloat light_diffuse[] = { 100.0, 100.0, 100.0, 1.0 };
+    const GLfloat light_position0[] = { 0.0, 0.0, 1.0, 0.0 };
+    const GLfloat light_diffuse0[] = { 10.0, 10.0, 10.0, 1.0 };
+
+    const GLfloat light_position1[] = { 0.0, -1.0, 0.0, 0.0 };
+    const GLfloat light_diffuse1[] = { 10.0, 10.0, 50.0, 1.0 };
 
     glClearColor (0.0, 0.0, 0.0, 0.0);
     glShadeModel (GL_FLAT);
-
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-
     glEnable(GL_LIGHTING);
+
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position0);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse0);
     glEnable(GL_LIGHT0);
+
+    glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse1);
+    glEnable(GL_LIGHT1);
+
     glEnable(GL_DEPTH_TEST);
 
     glMatrixMode(GL_PROJECTION);
