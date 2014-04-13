@@ -33,6 +33,22 @@ void App::initialize() {
     glOrtho(0, width, 0, height, 0.1f, 1000);
 }
 
+void App::send_up() {
+    level.send_up();
+}
+
+void App::send_down() {
+    level.send_down();
+}
+
+void App::send_left() {
+    level.send_left();
+}
+
+void App::send_right() {
+    level.send_right();
+}
+
 void App::step(double dt) {
     level.step(dt);
 }

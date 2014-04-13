@@ -12,6 +12,11 @@ class App {
 
         void step(double dt);
 
+        void send_up();
+        void send_down();
+        void send_left();
+        void send_right();
+
     private:
 
         int width, height;
