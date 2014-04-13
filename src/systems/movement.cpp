@@ -39,8 +39,9 @@ void MovementSystem::update(entityx::ptr<entityx::EntityManager> entities,
         entityx::ptr<Attrition> attrition = entity.component<Attrition>();
         entityx::ptr<Momentum>  momentum  = entity.component<Momentum>();
 
-        momentum->x *= pow(attrition->e, dt);
-        momentum->y *= pow(attrition->e, dt);
+        momentum->x *= pow(attrition->linear, dt);
+        momentum->y *= pow(attrition->linear, dt);
+        momentum->angular *= pow(attrition->angular, dt);
     }
 }
 

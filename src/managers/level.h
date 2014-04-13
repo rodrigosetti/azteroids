@@ -19,8 +19,8 @@ class Level : public entityx::Manager {
         void update(double dt);
 
     private:
-        void change_momentum(float delta);
-        void change_rotation(float delta);
+        void change_linear_momentum(float delta);
+        void change_angular_momemtum(float delta);
 
         int width, height;
 

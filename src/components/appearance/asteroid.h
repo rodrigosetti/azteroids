@@ -6,7 +6,7 @@ class Asteroid : public Appearance {
     public:
         Asteroid(float size) : size(size) {}
 
-        void render();
+        void render(float dt);
 
     private:
         float size;

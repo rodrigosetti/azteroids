@@ -3,8 +3,9 @@
 #include <entityx/entityx.h>
 
 struct Attrition : entityx::Component<Attrition> {
-    Attrition(float e = 0.0f) : e(e) {}
+    Attrition(float linear = 1.0f, float angular = 1.0f) :
+             linear(linear), angular(angular) {}
 
-    float e;
+    float linear, angular;
 };
 
