@@ -7,6 +7,10 @@ struct Momentum : entityx::Component<Momentum> {
              float angular = 0.0f) :
             x(x), y(y), angular(angular) {}
 
+    float normal() {
+        return sqrt(pow(x, 2) + pow(y, 2));
+    }
+
     float x, y, angular;
 };
 

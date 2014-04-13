@@ -19,7 +19,7 @@ void Level::configure() {
 
 void Level::initialize() {
     for (int i = 0; i < AZTEROIDS_NUM; i++) {
-        float mass = rand() % 50 + 10;
+        float mass = rand() % 20 + 20;
         entityx::Entity entity = entity_manager->create();
         entity.assign<Asteroid>(mass);
         entity.assign<Mass>(mass);
