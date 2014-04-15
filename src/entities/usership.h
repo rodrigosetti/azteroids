@@ -18,6 +18,7 @@ class UserShip : public entityx::Receiver<UserShip> {
         float x, y;
 
         entityx::Entity entity;
+        entityx::ptr<entityx::EntityManager> entity_manager;
 
         void change_linear_momentum(float delta);
         void change_angular_momemtum(float delta);

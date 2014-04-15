@@ -1,4 +1,4 @@
-#include <GL/glut.h>
+#include <OpenGL/gl.h>
 #include "ship.h"
 
 void Ship::render(float dt) {

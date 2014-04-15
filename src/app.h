@@ -16,6 +16,7 @@ class App {
         void send_down();
         void send_left();
         void send_right();
+        void send_space();
 
     private:
 

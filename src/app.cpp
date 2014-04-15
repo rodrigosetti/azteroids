@@ -49,6 +49,10 @@ void App::send_right() {
     level.send_right();
 }
 
+void App::send_space() {
+    level.send_space();
+}
+
 void App::step(double dt) {
     level.step(dt);
 }

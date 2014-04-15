@@ -13,19 +13,21 @@ void RenderSystem::update(entityx::ptr<entityx::EntityManager> entities,
     glLoadIdentity();
 
     for (auto entity : entities->entities_with_components<Appearance>()) {
-        entityx::ptr<Position>   position   = entity.component<Position>();
-        entityx::ptr<Appearance> appearance = entity.component<Appearance>();
+        if (entity.valid()) {
+            entityx::ptr<Position>   position   = entity.component<Position>();
+            entityx::ptr<Appearance> appearance = entity.component<Appearance>();
 
-        glPushMatrix();
-        if (position) {
-            glTranslatef(position->x, position->y, -500);
-            glRotatef(position->rotation,
-                      position->rotation_axis_x,
-                      position->rotation_axis_y,
-                      position->rotation_axis_z);
+            glPushMatrix();
+            if (position) {
+                glTranslatef(position->x, position->y, -500);
+                glRotatef(position->rotation,
+                          position->rotation_axis_x,
+                          position->rotation_axis_y,
+                          position->rotation_axis_z);
+            }
+            appearance->render(dt);
+            glPopMatrix();
         }
-        appearance->render(dt);
-        glPopMatrix();
     }
 };
 

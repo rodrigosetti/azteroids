@@ -1,5 +1,6 @@
 #include <components/appearance/asteroid.h>
 #include <components/geometry.h>
+#include <components/identity.h>
 #include <components/mass.h>
 #include <components/momentum.h>
 #include <components/position.h>
@@ -23,15 +24,16 @@ void Level::initialize() {
     // Create asteroids:
     for (int i = 0; i < AZTEROIDS_NUM; i++) {
         float mass = rand() % 20 + 20;
-        entityx::Entity entity = entity_manager->create();
-        entity.assign<Asteroid>(mass);
-        entity.assign<Mass>(mass);
-        entity.assign<Geometry>(mass);
-        entity.assign<Momentum>(rand() % 1000 - 500, rand() % 1000 - 500,
-                                rand() % 1200 - 600);
-        entity.assign<Position>(rand() % width, rand() % height,
-                                rand() % 360,
-                                rand() % 10, rand() % 10, rand() % 10);
+        entityx::Entity asteroid = entity_manager->create();
+        asteroid.assign<Asteroid>(mass);
+        asteroid.assign<Identity>(EntityIdentity::ASTEROID);
+        asteroid.assign<Mass>(mass);
+        asteroid.assign<Geometry>(mass);
+        asteroid.assign<Momentum>(rand() % 1000 - 500, rand() % 1000 - 500,
+                                  rand() % 1200 - 600);
+        asteroid.assign<Position>(rand() % width, rand() % height,
+                                  rand() % 360,
+                                  rand() % 10, rand() % 10, rand() % 10);
     }
 
     // Initialize user-controllable ship:
@@ -58,5 +60,9 @@ void Level::send_left() {
 
 void Level::send_right() {
     event_manager->emit<UserAction>(UserActionType::RIGHT);
+}
+
+void Level::send_space() {
+    event_manager->emit<UserAction>(UserActionType::SPACE);
 }
 

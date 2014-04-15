@@ -1,5 +1,7 @@
 #include <components/appearance/ship.h>
+#include <components/appearance/laser.h>
 #include <components/attrition.h>
+#include <components/identity.h>
 #include <components/geometry.h>
 #include <components/mass.h>
 #include <components/momentum.h>
@@ -16,8 +18,11 @@ const float HPI = 0.5f * PI;
 
 void UserShip::initialize(entityx::ptr<entityx::EntityManager> entities,
                           entityx::ptr<entityx::EventManager> events) {
+    entity_manager = entities;
+
     // create entity's components
     entity = entities->create();
+    entity.assign<Identity>(EntityIdentity::SHIP);
     entity.assign<Mass>(30);
     entity.assign<Ship>();
     entity.assign<Geometry>(10);
@@ -42,6 +47,25 @@ void UserShip::receive(const UserAction &action) {
             break;
         case UserActionType::RIGHT:
             change_angular_momemtum(-ANGULAR_MOMENTUM_STEP);
+            break;
+        case UserActionType::SPACE:
+            entityx::ptr<Position> position = entity.component<Position>();
+            entityx::ptr<Momentum> momentum = entity.component<Momentum>();
+
+            // laser beam!
+            float angle = (position->rotation * DPI / 360.f) + HPI;
+            entityx::Entity laser = entity_manager->create();
+            laser.assign<Laser>();
+            laser.assign<Identity>(EntityIdentity::LASER);
+            laser.assign<Geometry>(10);
+            laser.assign<Momentum>(cos(angle) * 500,
+                                   sin(angle) * 500);
+            laser.assign<Position>(position->x + cos(angle) * 20,
+                                   position->y + sin(angle) * 20,
+                                   position->rotation,
+                                   0, 0, 1, 
+                                   OffLimitBehavior::DESTROY);
+
             break;
     }
 }
