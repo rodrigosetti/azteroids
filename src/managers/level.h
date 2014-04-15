@@ -2,9 +2,13 @@
 
 #include <entityx/entityx.h>
 
+#include <entities/usership.h>
+
 class Level : public entityx::Manager {
     public:
-        Level(int width, int height) : width(width), height(height) {}
+        Level(int width, int height) :
+            width(width), height(height),
+            user_ship(width/2, height/2) {}
 
         void send_up();
         void send_down();
@@ -19,11 +23,7 @@ class Level : public entityx::Manager {
         void update(double dt);
 
     private:
-        void change_linear_momentum(float delta);
-        void change_angular_momemtum(float delta);
-
         int width, height;
-
-        entityx::Entity user_ship;
+        UserShip user_ship;
 };
 
