@@ -1,6 +1,8 @@
 # Azteroids
 
-Simple asteroids game made in C++.
+Simple asteroids game made in C++ and OpenGL.
+
+![Screen Shot](img/screenshot-1.png?raw=true)
 
 ## Dependencies
 
