@@ -25,7 +25,7 @@ void RenderSystem::update(entityx::ptr<entityx::EntityManager> entities,
                           position->rotation_axis_y,
                           position->rotation_axis_z);
             }
-            appearance->render(dt);
+            appearance->render(entity, dt);
             glPopMatrix();
         }
     }

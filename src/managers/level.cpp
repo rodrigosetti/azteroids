@@ -8,6 +8,7 @@
 #include <systems/collision.h>
 #include <systems/movement.h>
 #include <systems/render.h>
+#include <systems/particle.h>
 
 #include "level.h"
 
@@ -22,6 +23,7 @@ void Level::configure() {
     system_manager->add<MovementSystem>(application->width,
                                         application->height);
     system_manager->add<RenderSystem>();
+    system_manager->add<ParticleSystem>();
 };
 
 void Level::initialize() {
@@ -49,6 +51,7 @@ void Level::initialize() {
 void Level::update(double dt) {
     system_manager->update<CollisionSystem>(dt);
     system_manager->update<MovementSystem>(dt);
+    system_manager->update<ParticleSystem>(dt);
     system_manager->update<RenderSystem>(dt);
 
     user_ship.update(dt);

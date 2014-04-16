@@ -1,4 +1,5 @@
 #include <GL/glut.h>
+
 #include "asteroid.h"
 
 void Asteroid::render(float dt) {

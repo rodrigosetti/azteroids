@@ -6,11 +6,9 @@ void Laser::render(float dt) {
 
     glMaterialfv(GL_FRONT, GL_EMISSION, mat_emission);
 
-    glPushMatrix();
     glBegin(GL_LINES);
     glVertex3f(0, 0,  0);
     glVertex3f(0, 30, 0);
     glEnd();
-    glPopMatrix();
 }
 

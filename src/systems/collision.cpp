@@ -1,9 +1,11 @@
 #include <components/appearance/asteroid.h>
+#include <components/appearance/particle.h>
 #include <components/geometry.h>
 #include <components/identity.h>
 #include <components/mass.h>
 #include <components/momentum.h>
 #include <components/position.h>
+#include <components/particle.h>
 
 #include "collision.h"
 
@@ -39,6 +41,8 @@ void CollisionSystem::update(entityx::ptr<entityx::EntityManager> entities,
 
 void handle_cases(entityx::ptr<entityx::EntityManager> entity_manager,
                   entityx::Entity entity1, entityx::Entity entity2) {
+    const float spark_color[] = {0.5f, 1.0f, 1.0f};
+
     entityx::ptr<Identity> id1 = entity1.component<Identity>();
     entityx::ptr<Identity> id2 = entity2.component<Identity>();
 
@@ -46,6 +50,7 @@ void handle_cases(entityx::ptr<entityx::EntityManager> entity_manager,
     if (id1->identity == EntityIdentity::ASTEROID &&
         id2->identity == EntityIdentity::ASTEROID) {
         bounce(entity1, entity2);
+
     } else if (id1->identity == EntityIdentity::LASER &&
                id2->identity == EntityIdentity::ASTEROID) {
         entityx::ptr<Mass>     mass     = entity2.component<Mass>();
@@ -71,6 +76,26 @@ void handle_cases(entityx::ptr<entityx::EntityManager> entity_manager,
                                           rand() % 10, rand() % 10, rand() % 10);
             }
         }
+
+        // Create some particle
+        for (int i = 0; i < 500; i++) {
+            float angle = rand() % 360;
+            float speed = rand() % 100 + 50;
+            float duration = (rand() % 1000) / 1000.0f;
+            entityx::Entity spark = entity_manager->create();
+            spark.assign<Spark>(spark_color);
+            spark.assign<Particle>(duration);
+            spark.assign<Identity>(EntityIdentity::PARTICLE);
+            spark.assign<Momentum>(cos(angle) * speed, sin(angle) * speed);
+            spark.assign<Position>(position->x, position->y,
+                                   0, 0, 0, 1, 
+                                   OffLimitBehavior::DESTROY);
+        }
+        entityx::Entity cloud = entity_manager->create();
+        cloud.assign<Cloud>(spark_color, 500);
+        cloud.assign<Particle>(0.2f);
+        cloud.assign<Identity>(EntityIdentity::PARTICLE);
+        cloud.assign<Position>(position->x, position->y);
 
     } else if (id2->identity == EntityIdentity::LASER &&
                id1->identity == EntityIdentity::ASTEROID) {
