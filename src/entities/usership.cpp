@@ -9,8 +9,9 @@
 
 #include "usership.h"
 
-const float LINEAR_MOMENTUM_STEP = 1000;
-const float ANGULAR_MOMENTUM_STEP = 1000;
+const float LINEAR_MOMENTUM_STEP = 2000;
+const float ANGULAR_MOMENTUM_STEP = 5000;
+const double FIRE_COOLDOWN = .3;
 
 const float PI = 3.14159265359f;
 const float DPI = 2 * PI;
@@ -29,44 +30,49 @@ void UserShip::initialize(entityx::ptr<entityx::EntityManager> entities,
     entity.assign<Momentum>(0, 0, 0);
     entity.assign<Attrition>(0.6f, 0.5f);
     entity.assign<Position>(x, y);
-
-    // subscribe to events
-    events->subscribe<UserAction>(*this);
 }
 
-void UserShip::receive(const UserAction &action) {
-    switch (action.type) {
-        case UserActionType::UP:
-            change_linear_momentum(LINEAR_MOMENTUM_STEP);
-            break;
-        case UserActionType::DOWN:
-            change_linear_momentum(-LINEAR_MOMENTUM_STEP);
-            break;
-        case UserActionType::LEFT:
-            change_angular_momemtum(ANGULAR_MOMENTUM_STEP);
-            break;
-        case UserActionType::RIGHT:
-            change_angular_momemtum(-ANGULAR_MOMENTUM_STEP);
-            break;
-        case UserActionType::SPACE:
-            entityx::ptr<Position> position = entity.component<Position>();
-            entityx::ptr<Momentum> momentum = entity.component<Momentum>();
+void UserShip::update(double dt) {
+    cool_down += dt;
+}
 
-            // laser beam!
-            float angle = (position->rotation * DPI / 360.f) + HPI;
-            entityx::Entity laser = entity_manager->create();
-            laser.assign<Laser>();
-            laser.assign<Identity>(EntityIdentity::LASER);
-            laser.assign<Geometry>(10);
-            laser.assign<Momentum>(cos(angle) * 500,
-                                   sin(angle) * 500);
-            laser.assign<Position>(position->x + cos(angle) * 20,
-                                   position->y + sin(angle) * 20,
-                                   position->rotation,
-                                   0, 0, 1, 
-                                   OffLimitBehavior::DESTROY);
+void UserShip::move_forward(double dt) {
+    change_linear_momentum(dt * LINEAR_MOMENTUM_STEP);
+}
 
-            break;
+void UserShip::move_backwards(double dt) {
+    change_linear_momentum(dt * -LINEAR_MOMENTUM_STEP);
+}
+
+void UserShip::rotate_left(double dt) {
+    change_angular_momemtum(dt * ANGULAR_MOMENTUM_STEP);
+}
+
+void UserShip::rotate_right(double dt) {
+    change_angular_momemtum(dt * -ANGULAR_MOMENTUM_STEP);
+}
+
+void UserShip::fire(double dt) {
+    if (cool_down > FIRE_COOLDOWN) {
+        cool_down = 0; // reset cool down
+
+        entityx::ptr<Position> position = entity.component<Position>();
+        entityx::ptr<Momentum> momentum = entity.component<Momentum>();
+
+        // laser beam!
+        float angle = (position->rotation * DPI / 360.f) + HPI;
+        entityx::Entity laser = entity_manager->create();
+        laser.assign<Laser>();
+        laser.assign<Identity>(EntityIdentity::LASER);
+        laser.assign<Geometry>(10);
+        laser.assign<Momentum>(cos(angle) * 500,
+                               sin(angle) * 500);
+        laser.assign<Position>(position->x + cos(angle) * 20,
+                               position->y + sin(angle) * 20,
+                               position->rotation,
+                               0, 0, 1, 
+                               OffLimitBehavior::DESTROY);
+
     }
 }
 

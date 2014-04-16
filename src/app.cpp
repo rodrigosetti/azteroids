@@ -3,7 +3,7 @@
 #include "app.h"
 
 App::App(int width, int height) :
-    width(width), height(height), level(Level(width, height)) {
+    width(width), height(height), level(Level(this)) {
     level.start();
 }
 
@@ -31,26 +31,6 @@ void App::initialize() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0, width, 0, height, 0.1f, 1000);
-}
-
-void App::send_up() {
-    level.send_up();
-}
-
-void App::send_down() {
-    level.send_down();
-}
-
-void App::send_left() {
-    level.send_left();
-}
-
-void App::send_right() {
-    level.send_right();
-}
-
-void App::send_space() {
-    level.send_space();
 }
 
 void App::step(double dt) {

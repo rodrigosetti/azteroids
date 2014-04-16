@@ -1,10 +1,10 @@
+#include <app.h>
 #include <components/appearance/asteroid.h>
 #include <components/geometry.h>
 #include <components/identity.h>
 #include <components/mass.h>
 #include <components/momentum.h>
 #include <components/position.h>
-#include <events/useraction.h>
 #include <systems/collision.h>
 #include <systems/movement.h>
 #include <systems/render.h>
@@ -13,9 +13,14 @@
 
 const int AZTEROIDS_NUM = 20;
 
+Level::Level(App *application) : application(application),
+                                 user_ship(application->width/2,
+                                           application->height/2) {}
+
 void Level::configure() {
     system_manager->add<CollisionSystem>();
-    system_manager->add<MovementSystem>(width, height);
+    system_manager->add<MovementSystem>(application->width,
+                                        application->height);
     system_manager->add<RenderSystem>();
 };
 
@@ -31,7 +36,8 @@ void Level::initialize() {
         asteroid.assign<Geometry>(mass);
         asteroid.assign<Momentum>(rand() % 1000 - 500, rand() % 1000 - 500,
                                   rand() % 1200 - 600);
-        asteroid.assign<Position>(rand() % width, rand() % height,
+        asteroid.assign<Position>(rand() % application->width,
+                                  rand() % application->height,
                                   rand() % 360,
                                   rand() % 10, rand() % 10, rand() % 10);
     }
@@ -44,25 +50,24 @@ void Level::update(double dt) {
     system_manager->update<CollisionSystem>(dt);
     system_manager->update<MovementSystem>(dt);
     system_manager->update<RenderSystem>(dt);
-}
 
-void Level::send_up() {
-    event_manager->emit<UserAction>(UserActionType::UP);
-}
+    user_ship.update(dt);
 
-void Level::send_down() {
-    event_manager->emit<UserAction>(UserActionType::DOWN);
-}
-
-void Level::send_left() {
-    event_manager->emit<UserAction>(UserActionType::LEFT);
-}
-
-void Level::send_right() {
-    event_manager->emit<UserAction>(UserActionType::RIGHT);
-}
-
-void Level::send_space() {
-    event_manager->emit<UserAction>(UserActionType::SPACE);
+    // update user ship based on the keys state
+    if (application->keys_pressed.up) {
+        user_ship.move_forward(dt);
+    }
+    if (application->keys_pressed.down) {
+        user_ship.move_backwards(dt);
+    }
+    if (application->keys_pressed.left) {
+        user_ship.rotate_left(dt);
+    }
+    if (application->keys_pressed.right) {
+        user_ship.rotate_right(dt);
+    }
+    if (application->keys_pressed.space) {
+        user_ship.fire(dt);
+    }
 }
 

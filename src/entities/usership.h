@@ -2,9 +2,7 @@
 
 #include <entityx/entityx.h>
 
-#include <events/useraction.h>
-
-class UserShip : public entityx::Receiver<UserShip> {
+class UserShip {
 
     public:
         UserShip(float x, float y) : x(x), y(y) {}
@@ -12,10 +10,17 @@ class UserShip : public entityx::Receiver<UserShip> {
         void initialize(entityx::ptr<entityx::EntityManager> entities,
                         entityx::ptr<entityx::EventManager> events);
 
-        void receive(const UserAction &action);
+        void update(double dt);
+
+        void move_forward(double dt);
+        void move_backwards(double dt);
+        void rotate_left(double dt);
+        void rotate_right(double dt);
+        void fire(double dt);
 
     private:
         float x, y;
+        double cool_down = 0;
 
         entityx::Entity entity;
         entityx::ptr<entityx::EntityManager> entity_manager;

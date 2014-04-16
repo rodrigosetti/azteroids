@@ -2,7 +2,8 @@
 #include <GL/glut.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "app.h"
+
+#include <app.h>
 
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
@@ -22,23 +23,24 @@ static void key_callback (GLFWwindow* window, int key, int scancode, int action,
         return;
     }
 
-    // user actions:
-    if (action == GLFW_PRESS || action == GLFW_REPEAT) {
+    // set keys
+    if (action == GLFW_PRESS || action == GLFW_RELEASE) {
+        bool key_pressed = action == GLFW_PRESS;
         switch (key) {
             case GLFW_KEY_UP:
-                application.send_up();
+                application.keys_pressed.up    = key_pressed;
                 break;
             case GLFW_KEY_DOWN:
-                application.send_down();
+                application.keys_pressed.down   = key_pressed;
                 break;
             case GLFW_KEY_LEFT:
-                application.send_left();
+                application.keys_pressed.left  = key_pressed;
                 break;
             case GLFW_KEY_RIGHT:
-                application.send_right();
+                application.keys_pressed.right = key_pressed;
                 break;
             case GLFW_KEY_SPACE:
-                application.send_space();
+                application.keys_pressed.space = key_pressed;
                 break;
         }
     }

@@ -2,6 +2,14 @@
 
 #include <managers/level.h>
 
+struct Keys {
+    bool up    = false;
+    bool down  = false;
+    bool left  = false;
+    bool right = false;
+    bool space = false;
+};
+
 class App {
 
     public:
@@ -12,15 +20,12 @@ class App {
 
         void step(double dt);
 
-        void send_up();
-        void send_down();
-        void send_left();
-        void send_right();
-        void send_space();
+        Keys keys_pressed;
+
+        int width, height;
 
     private:
 
-        int width, height;
         Level level;
 };
 

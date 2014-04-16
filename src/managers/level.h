@@ -4,17 +4,12 @@
 
 #include <entities/usership.h>
 
+// foward declaration of App
+class App;
+
 class Level : public entityx::Manager {
     public:
-        Level(int width, int height) :
-            width(width), height(height),
-            user_ship(width/2, height/2) {}
-
-        void send_up();
-        void send_down();
-        void send_left();
-        void send_right();
-        void send_space();
+        Level(App *application);
 
     protected:
         void configure();
@@ -24,7 +19,7 @@ class Level : public entityx::Manager {
         void update(double dt);
 
     private:
-        int width, height;
+        App *application;
         UserShip user_ship;
 };
 
