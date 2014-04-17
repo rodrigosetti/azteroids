@@ -1,5 +1,6 @@
 cmake_minimum_required (VERSION 2.8)
 project (Azteroids)
+set(VERSION "0.1.0")
 
 # Required libraries in this source dir
 add_subdirectory(lib/entityx EXCLUDE_FROM_ALL)
@@ -21,13 +22,21 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin/")
 file(GLOB_RECURSE azteroids_SOURCES "src/*.cpp")
 
 if (APPLE)
-    add_executable(Azteroids MACOSX_BUNDLE ${azteroids_SOURCES})
-    set_target_properties(Azteroids PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "Azteroids")
+    set(OSX_ICON_FILES ${CMAKE_CURRENT_SOURCE_DIR}/icons/Azteroids.icns)
+    # set where in the bundle to put the icns files
+    set_source_files_properties(${OSX_ICON_FILES} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+    # include the icns files in the target
+    set( azteroids_SOURCES ${azteroids_SOURCES} ${OSX_ICON_FILES} )
+endif()
+
+add_executable(Azteroids WIN32 MACOSX_BUNDLE ${azteroids_SOURCES})
+
+if (APPLE)
     set_target_properties(Azteroids PROPERTIES
-                          MACOSX_BUNDLE_SHORT_VERSION_STRING ${GLFW_VERSION}
-                          MACOSX_BUNDLE_LONG_VERSION_STRING ${GLFW_VERSION_FULL})
-else()
-    add_executable(Azteroids ${azteroids_SOURCES})
+                          MACOSX_BUNDLE_BUNDLE_NAME "Azteroids"
+                          MACOSX_BUNDLE_ICON_FILE   "Azteroids"
+                          MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
+                          MACOSX_BUNDLE_LONG_VERSION_STRING "Azteroids - Version ${VERSION}")
 endif()
 
 if (MSVC)
