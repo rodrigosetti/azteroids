@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.8)
-project (Azteroids)
+project (AzteroidsGame)
 set(VERSION "0.1.0")
 
 # Required libraries in this source dir
@@ -8,13 +8,14 @@ add_subdirectory(lib/glfw EXCLUDE_FROM_ALL)
 
 # use GLUT
 find_package(GLUT REQUIRED)
-include_directories(${GLUT_INCLUDE_DIR})
+include_directories(${GLUT_INCLUDE_DIRS})
 
 # include paths
-include_directories(${GLUT_INCLUDE_DIRS} lib/glfw/include lib/entityx src)
+include_directories(lib/glfw/include lib/entityx src)
 
 if (NOT APPLE)
     # HACK: This is NOTFOUND on OS X 10.8
+    find_package(OpenGL REQUIRED)
     include_directories(${OPENGL_INCLUDE_DIR})
 endif()
 
